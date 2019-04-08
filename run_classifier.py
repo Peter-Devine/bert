@@ -726,7 +726,6 @@ def model_fn_builder(bert_config, num_labels, init_checkpoint, learning_rate,
         accuracy = tf.metrics.accuracy(
             labels=label_ids, predictions=predictions, weights=is_real_example)
         loss = tf.metrics.mean(values=per_example_loss, weights=is_real_example)
-        print(accuracy)
         return {
             "eval_accuracy": accuracy,
             "eval_loss": loss,
@@ -835,7 +834,6 @@ def convert_examples_to_features(examples, label_list, max_seq_length,
 
 
 def main(_):
-
   tf.logging.set_verbosity(tf.logging.INFO)
 
   processors = {
@@ -919,8 +917,6 @@ def main(_):
       train_batch_size=FLAGS.train_batch_size,
       eval_batch_size=FLAGS.eval_batch_size,
       predict_batch_size=FLAGS.predict_batch_size)
-
-  estimator._log_every_n_steps = 1
 
   if FLAGS.do_train:
     train_file = os.path.join(FLAGS.output_dir, "train.tf_record")
