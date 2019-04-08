@@ -373,6 +373,46 @@ class ColaProcessor(DataProcessor):
           InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
     return examples
 
+class EmotionProcessor(DataProcessor):
+  """Processor for the custom emotion data set."""
+
+  def get_train_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "train.tsv")), "train")
+
+  def get_dev_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "dev.tsv")), "dev")
+
+  def get_test_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "test.tsv")), "test")
+
+  def get_labels(self):
+    """See base class."""
+    return ["0", "1", "2", "3", "4", "5", "6"]
+
+  def _create_examples(self, lines, set_type):
+    """Creates examples for the training and dev sets."""
+    examples = []
+    for (i, line) in enumerate(lines):
+      # We take out our header in each dataset
+      if i == 0:
+        continue
+      guid = "%s-%s" % (set_type, i)
+      if set_type == "test":
+        text_a = tokenization.convert_to_unicode(line[1])
+        label = "0"
+      else:
+        text_a = tokenization.convert_to_unicode(line[1])
+        label = tokenization.convert_to_unicode(line[2])
+      examples.append(
+          InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
+    return examples
+
 
 def convert_single_example(ex_index, example, label_list, max_seq_length,
                            tokenizer):
@@ -761,6 +801,19 @@ def input_fn_builder(features, seq_length, is_training, drop_remainder):
 
   return input_fn
 
+class ExampleCheckpointSaverListener(tf.train.CheckpointSaverListener):
+  def begin(self):
+    print('Starting the session.')
+
+  def before_save(self, session, global_step_value):
+    print('About to write a checkpoint'+str(global_step_value))
+
+  def after_save(self, session, global_step_value):
+    print('Done writing checkpoint.'+str(global_step_value))
+
+  def end(self, session, global_step_value):
+    print('Done with the session.')
+
 
 # This function is not used by this file but is still used by the Colab and
 # people who depend on it.
@@ -788,6 +841,7 @@ def main(_):
       "mnli": MnliProcessor,
       "mrpc": MrpcProcessor,
       "xnli": XnliProcessor,
+      "emo": EmotionProcessor,
   }
 
   tokenization.validate_case_matches_checkpoint(FLAGS.do_lower_case,
@@ -877,7 +931,7 @@ def main(_):
         seq_length=FLAGS.max_seq_length,
         is_training=True,
         drop_remainder=True)
-    estimator.train(input_fn=train_input_fn, max_steps=num_train_steps)
+    estimator.train(input_fn=train_input_fn, max_steps=num_train_steps, saving_listeners=[ExampleCheckpointSaverListener()])
 
   if FLAGS.do_eval:
     eval_examples = processor.get_dev_examples(FLAGS.data_dir)
