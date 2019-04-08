@@ -399,16 +399,26 @@ class EmotionProcessor(DataProcessor):
     """Creates examples for the training and dev sets."""
     examples = []
     for (i, line) in enumerate(lines):
+      id_header_index = 0
+      dialogue_header_index = 3
+      emotion_header_index = 4
+      act_header_index = 1
+      convo_id_header_index = 2
       # We take out our header in each dataset
       if i == 0:
+        id_header_index = line.index("")
+        dialogue_header_index = line.index("dialogue")
+        emotion_header_index = line.index("emotion")
+        act_header_index = line.index("act")
+        convo_id_header_index = line.index("convo_id")
         continue
       guid = "%s-%s" % (set_type, i)
       if set_type == "test":
-        text_a = tokenization.convert_to_unicode(line[1])
+        text_a = tokenization.convert_to_unicode(line[dialogue_header_index])
         label = "0"
       else:
-        text_a = tokenization.convert_to_unicode(line[1])
-        label = tokenization.convert_to_unicode(line[2])
+        text_a = tokenization.convert_to_unicode(line[dialogue_header_index])
+        label = tokenization.convert_to_unicode(line[emotion_header_index])
       examples.append(
           InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
     return examples
