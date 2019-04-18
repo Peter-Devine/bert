@@ -1020,7 +1020,9 @@ def main(_):
       "mrpc": MrpcProcessor,
       "xnli": XnliProcessor,
       "dailydialogue": DailyDialogueProcessor,
-      "dailydialoguecontext": DailyDialogueContextProcessor
+      "dailydialoguecontext": DailyDialogueContextProcessor,
+      "friends": FriendsProcessor,
+      "friendscontext": FriendsContextProcessor
   }
 
   tokenization.validate_case_matches_checkpoint(FLAGS.do_lower_case,
