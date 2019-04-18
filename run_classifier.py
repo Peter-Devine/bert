@@ -513,7 +513,7 @@ class FriendsProcessor(DataProcessor):
       # We take out our header in each dataset
       if i == 0:
         id_header_index = line.index("")
-        dialogue_header_index = line.index("dialogue")
+        dialogue_header_index = line.index("utterance")
         annotation_header_index = line.index("annotation")
         emotion_header_index = line.index("emotion")
         act_header_index = line.index("act")
@@ -568,7 +568,7 @@ class FriendsContextProcessor(DataProcessor):
       # We take out our header in each dataset
       if i == 0:
         id_header_index = line.index("")
-        dialogue_header_index = line.index("dialogue")
+        dialogue_header_index = line.index("utterance")
         annotation_header_index = line.index("annotation")
         emotion_header_index = line.index("emotion")
         act_header_index = line.index("act")
