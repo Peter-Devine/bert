@@ -516,7 +516,7 @@ class FriendsProcessor(DataProcessor):
         dialogue_header_index = line.index("utterance")
         annotation_header_index = line.index("annotation")
         emotion_header_index = line.index("emotion")
-        act_header_index = line.index("act")
+        speaker_header_index = line.index("speaker")
         convo_id_header_index = line.index("convo_id")
         turn_id_header_index = line.index("turn_id")
         continue
@@ -571,7 +571,7 @@ class FriendsContextProcessor(DataProcessor):
         dialogue_header_index = line.index("utterance")
         annotation_header_index = line.index("annotation")
         emotion_header_index = line.index("emotion")
-        act_header_index = line.index("act")
+        speaker_header_index = line.index("speaker")
         convo_id_header_index = line.index("convo_id")
         turn_id_header_index = line.index("turn_id")
         context_header_index = line.index("context")
