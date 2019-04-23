@@ -454,7 +454,7 @@ class DailyDialogueContextProcessor(DataProcessor):
       emotion_header_index = 5
       act_header_index = 1
       convo_id_header_index = 3
-      context_index = 2
+      context_header_index = 2
       # We take out our header in each dataset
       if i == 0:
         id_header_index = line.index("")
@@ -564,7 +564,7 @@ class FriendsContextProcessor(DataProcessor):
       speaker_header_index = 3
       convo_id_header_index = 5
       turn_id_header_index = 6
-      context_index = 7
+      context_header_index = 7
       # We take out our header in each dataset
       if i == 0:
         id_header_index = line.index("")
@@ -574,6 +574,102 @@ class FriendsContextProcessor(DataProcessor):
         speaker_header_index = line.index("speaker")
         convo_id_header_index = line.index("convo_id")
         turn_id_header_index = line.index("turn_id")
+        context_header_index = line.index("context")
+        continue
+      guid = "%s-%s" % (set_type, i)
+      if set_type == "test":
+        text_a = tokenization.convert_to_unicode(line[dialogue_header_index])
+        text_b = tokenization.convert_to_unicode(line[context_header_index])
+        label = "0"
+      else:
+        text_a = tokenization.convert_to_unicode(line[dialogue_header_index])
+        text_b = tokenization.convert_to_unicode(line[context_header_index])
+        label = tokenization.convert_to_unicode(line[emotion_header_index])
+      examples.append(
+          InputExample(guid=guid, text_a=text_a, text_b=text_b, label=label))
+    return examples
+
+class SemEval2019Task3Processor(DataProcessor):
+  """Processor for the custom emotion data set."""
+
+  def get_train_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "train.tsv")), "train")
+
+  def get_dev_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "dev.tsv")), "dev")
+
+  def get_test_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "test.tsv")), "test")
+
+  def get_labels(self):
+    """See base class."""
+    return ['others', 'angry', 'sad', 'happy']
+
+  def _create_examples(self, lines, set_type):
+    """Creates examples for the training and dev sets."""
+    examples = []
+    for (i, line) in enumerate(lines):
+      id_header_index = 0
+      dialogue_header_index = 2
+      emotion_header_index = 3
+      # We take out our header in each dataset
+      if i == 0:
+        id_header_index = line.index("")
+        dialogue_header_index = line.index("dialogue")
+        emotion_header_index = line.index("emotion")
+        continue
+      guid = "%s-%s" % (set_type, i)
+      if set_type == "test":
+        text_a = tokenization.convert_to_unicode(line[dialogue_header_index])
+        label = "0"
+      else:
+        text_a = tokenization.convert_to_unicode(line[dialogue_header_index])
+        label = tokenization.convert_to_unicode(line[emotion_header_index])
+      examples.append(
+          InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
+    return examples
+
+class SemEval2019Task3ContextProcessor(DataProcessor):
+  """Processor for the custom emotion data set."""
+
+  def get_train_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "train.tsv")), "train")
+
+  def get_dev_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "dev.tsv")), "dev")
+
+  def get_test_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "test.tsv")), "test")
+
+  def get_labels(self):
+    """See base class."""
+    return ['others', 'angry', 'sad', 'happy']
+
+  def _create_examples(self, lines, set_type):
+    """Creates examples for the training and dev sets."""
+    examples = []
+    for (i, line) in enumerate(lines):
+      id_header_index = 0
+      dialogue_header_index = 2
+      emotion_header_index = 3
+      context_index = 1
+      # We take out our header in each dataset
+      if i == 0:
+        id_header_index = line.index("")
+        dialogue_header_index = line.index("dialogue")
+        emotion_header_index = line.index("emotion")
         context_header_index = line.index("context")
         continue
       guid = "%s-%s" % (set_type, i)
@@ -1022,7 +1118,9 @@ def main(_):
       "dailydialogue": DailyDialogueProcessor,
       "dailydialoguecontext": DailyDialogueContextProcessor,
       "friends": FriendsProcessor,
-      "friendscontext": FriendsContextProcessor
+      "friendscontext": FriendsContextProcessor,
+      "semeval2019task3": SemEval2019Task3Processor,
+      "semeval2019task3context": SemEval2019Task3ContextProcessor
   }
 
   tokenization.validate_case_matches_checkpoint(FLAGS.do_lower_case,
