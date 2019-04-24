@@ -685,6 +685,324 @@ class SemEval2019Task3ContextProcessor(DataProcessor):
           InputExample(guid=guid, text_a=text_a, text_b=text_b, label=label))
     return examples
 
+class EmobankVProcessor(DataProcessor):
+  """Processor for the custom emotion data set."""
+
+  def get_train_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "train.tsv")), "train")
+
+  def get_dev_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "dev.tsv")), "dev")
+
+  def get_test_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "test.tsv")), "test")
+
+  def get_labels(self):
+    """See base class."""
+    return ['V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7']
+
+  def _create_examples(self, lines, set_type):
+    """Creates examples for the training and dev sets."""
+    examples = []
+    for (i, line) in enumerate(lines):
+      id_header_index = 0
+      dialogue_header_index = 5
+      valence_header_index = 7
+      arousal_header_index = 8
+      dominance_header_index = 9
+      context_header_index = 6
+      # We take out our header in each dataset
+      if i == 0:
+        id_header_index = line.index("")
+        dialogue_header_index = line.index("text")
+        valence_header_index = line.index("V")
+        arousal_header_index = line.index("A")
+        dominance_header_index = line.index("D")
+        context_header_index = line.index("context")
+        continue
+      guid = "%s-%s" % (set_type, i)
+      if set_type == "test":
+        text_a = tokenization.convert_to_unicode(line[dialogue_header_index])
+        label = "0"
+      else:
+        text_a = tokenization.convert_to_unicode(line[dialogue_header_index])
+        label = tokenization.convert_to_unicode(line[valence_header_index])
+      examples.append(
+          InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
+    return examples
+
+class EmobankVContextProcessor(DataProcessor):
+  """Processor for the custom emotion data set."""
+
+  def get_train_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "train.tsv")), "train")
+
+  def get_dev_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "dev.tsv")), "dev")
+
+  def get_test_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "test.tsv")), "test")
+
+  def get_labels(self):
+    """See base class."""
+    return ['V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7']
+
+  def _create_examples(self, lines, set_type):
+    """Creates examples for the training and dev sets."""
+    examples = []
+    for (i, line) in enumerate(lines):
+      id_header_index = 0
+      dialogue_header_index = 5
+      valence_header_index = 7
+      arousal_header_index = 8
+      dominance_header_index = 9
+      context_header_index = 6
+      # We take out our header in each dataset
+      if i == 0:
+        id_header_index = line.index("")
+        dialogue_header_index = line.index("text")
+        valence_header_index = line.index("V")
+        arousal_header_index = line.index("A")
+        dominance_header_index = line.index("D")
+        context_header_index = line.index("context")
+        continue
+      guid = "%s-%s" % (set_type, i)
+      if set_type == "test":
+        text_a = tokenization.convert_to_unicode(line[dialogue_header_index])
+        text_b = tokenization.convert_to_unicode(line[context_header_index])
+        label = "0"
+      else:
+        text_a = tokenization.convert_to_unicode(line[dialogue_header_index])
+        text_b = tokenization.convert_to_unicode(line[context_header_index])
+        label = tokenization.convert_to_unicode(line[valence_header_index])
+      examples.append(
+          InputExample(guid=guid, text_a=text_a, text_b=text_b, label=label))
+    return examples
+
+class EmobankAProcessor(DataProcessor):
+  """Processor for the custom emotion data set."""
+
+  def get_train_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "train.tsv")), "train")
+
+  def get_dev_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "dev.tsv")), "dev")
+
+  def get_test_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "test.tsv")), "test")
+
+  def get_labels(self):
+    """See base class."""
+    return ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7']
+
+  def _create_examples(self, lines, set_type):
+    """Creates examples for the training and dev sets."""
+    examples = []
+    for (i, line) in enumerate(lines):
+      id_header_index = 0
+      dialogue_header_index = 5
+      valence_header_index = 7
+      arousal_header_index = 8
+      dominance_header_index = 9
+      context_header_index = 6
+      # We take out our header in each dataset
+      if i == 0:
+        id_header_index = line.index("")
+        dialogue_header_index = line.index("text")
+        valence_header_index = line.index("V")
+        arousal_header_index = line.index("A")
+        dominance_header_index = line.index("D")
+        context_header_index = line.index("context")
+        continue
+      guid = "%s-%s" % (set_type, i)
+      if set_type == "test":
+        text_a = tokenization.convert_to_unicode(line[dialogue_header_index])
+        label = "0"
+      else:
+        text_a = tokenization.convert_to_unicode(line[dialogue_header_index])
+        label = tokenization.convert_to_unicode(line[arousal_header_index])
+      examples.append(
+          InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
+    return examples
+
+class EmobankAContextProcessor(DataProcessor):
+  """Processor for the custom emotion data set."""
+
+  def get_train_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "train.tsv")), "train")
+
+  def get_dev_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "dev.tsv")), "dev")
+
+  def get_test_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "test.tsv")), "test")
+
+  def get_labels(self):
+    """See base class."""
+    return ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7']
+
+  def _create_examples(self, lines, set_type):
+    """Creates examples for the training and dev sets."""
+    examples = []
+    for (i, line) in enumerate(lines):
+      id_header_index = 0
+      dialogue_header_index = 5
+      valence_header_index = 7
+      arousal_header_index = 8
+      dominance_header_index = 9
+      context_header_index = 6
+      # We take out our header in each dataset
+      if i == 0:
+        id_header_index = line.index("")
+        dialogue_header_index = line.index("text")
+        valence_header_index = line.index("V")
+        arousal_header_index = line.index("A")
+        dominance_header_index = line.index("D")
+        context_header_index = line.index("context")
+        continue
+      guid = "%s-%s" % (set_type, i)
+      if set_type == "test":
+        text_a = tokenization.convert_to_unicode(line[dialogue_header_index])
+        text_b = tokenization.convert_to_unicode(line[context_header_index])
+        label = "0"
+      else:
+        text_a = tokenization.convert_to_unicode(line[dialogue_header_index])
+        text_b = tokenization.convert_to_unicode(line[context_header_index])
+        label = tokenization.convert_to_unicode(line[arousal_header_index])
+      examples.append(
+          InputExample(guid=guid, text_a=text_a, text_b=text_b, label=label))
+    return examples
+
+class EmobankDProcessor(DataProcessor):
+  """Processor for the custom emotion data set."""
+
+  def get_train_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "train.tsv")), "train")
+
+  def get_dev_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "dev.tsv")), "dev")
+
+  def get_test_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "test.tsv")), "test")
+
+  def get_labels(self):
+    """See base class."""
+    return ['D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7']
+
+  def _create_examples(self, lines, set_type):
+    """Creates examples for the training and dev sets."""
+    examples = []
+    for (i, line) in enumerate(lines):
+      id_header_index = 0
+      dialogue_header_index = 5
+      valence_header_index = 7
+      arousal_header_index = 8
+      dominance_header_index = 9
+      context_header_index = 6
+      # We take out our header in each dataset
+      if i == 0:
+        id_header_index = line.index("")
+        dialogue_header_index = line.index("text")
+        valence_header_index = line.index("V")
+        arousal_header_index = line.index("A")
+        dominance_header_index = line.index("D")
+        context_header_index = line.index("context")
+        continue
+      guid = "%s-%s" % (set_type, i)
+      if set_type == "test":
+        text_a = tokenization.convert_to_unicode(line[dialogue_header_index])
+        label = "0"
+      else:
+        text_a = tokenization.convert_to_unicode(line[dialogue_header_index])
+        label = tokenization.convert_to_unicode(line[dominance_header_index])
+      examples.append(
+          InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
+    return examples
+
+class EmobankDContextProcessor(DataProcessor):
+  """Processor for the custom emotion data set."""
+
+  def get_train_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "train.tsv")), "train")
+
+  def get_dev_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "dev.tsv")), "dev")
+
+  def get_test_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "test.tsv")), "test")
+
+  def get_labels(self):
+    """See base class."""
+    return ['D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7']
+
+  def _create_examples(self, lines, set_type):
+    """Creates examples for the training and dev sets."""
+    examples = []
+    for (i, line) in enumerate(lines):
+      id_header_index = 0
+      dialogue_header_index = 5
+      valence_header_index = 7
+      arousal_header_index = 8
+      dominance_header_index = 9
+      context_header_index = 6
+      # We take out our header in each dataset
+      if i == 0:
+        id_header_index = line.index("")
+        dialogue_header_index = line.index("text")
+        valence_header_index = line.index("V")
+        arousal_header_index = line.index("A")
+        dominance_header_index = line.index("D")
+        context_header_index = line.index("context")
+        continue
+      guid = "%s-%s" % (set_type, i)
+      if set_type == "test":
+        text_a = tokenization.convert_to_unicode(line[dialogue_header_index])
+        text_b = tokenization.convert_to_unicode(line[context_header_index])
+        label = "0"
+      else:
+        text_a = tokenization.convert_to_unicode(line[dialogue_header_index])
+        text_b = tokenization.convert_to_unicode(line[context_header_index])
+        label = tokenization.convert_to_unicode(line[dominance_header_index])
+      examples.append(
+          InputExample(guid=guid, text_a=text_a, text_b=text_b, label=label))
+    return examples
+
 def convert_single_example(ex_index, example, label_list, max_seq_length,
                            tokenizer):
   """Converts a single `InputExample` into a single `InputFeatures`."""
@@ -1120,7 +1438,13 @@ def main(_):
       "friends": FriendsProcessor,
       "friendscontext": FriendsContextProcessor,
       "semeval2019task3": SemEval2019Task3Processor,
-      "semeval2019task3context": SemEval2019Task3ContextProcessor
+      "semeval2019task3context": SemEval2019Task3ContextProcessor,
+      "emobankvprocessor": EmobankVProcessor,
+      "emobankvcontextprocessor": EmobankVContextProcessor,
+      "emobankaprocessor": EmobankAProcessor,
+      "emobankacontextprocessor": EmobankAContextProcessor,
+      "emobankdprocessor": EmobankDProcessor,
+      "emobankdcontextprocessor": EmobankDContextProcessor
   }
 
   tokenization.validate_case_matches_checkpoint(FLAGS.do_lower_case,
