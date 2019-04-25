@@ -721,9 +721,9 @@ class EmobankVProcessor(DataProcessor):
       if i == 0:
         id_header_index = line.index("")
         dialogue_header_index = line.index("text")
-        valence_header_index = line.index("V")
-        arousal_header_index = line.index("A")
-        dominance_header_index = line.index("D")
+        valence_header_index = line.index("V_binned")
+        arousal_header_index = line.index("A_binned")
+        dominance_header_index = line.index("D_binned")
         context_header_index = line.index("context")
         continue
       guid = "%s-%s" % (set_type, i)
@@ -773,9 +773,9 @@ class EmobankVContextProcessor(DataProcessor):
       if i == 0:
         id_header_index = line.index("")
         dialogue_header_index = line.index("text")
-        valence_header_index = line.index("V")
-        arousal_header_index = line.index("A")
-        dominance_header_index = line.index("D")
+        valence_header_index = line.index("V_binned")
+        arousal_header_index = line.index("A_binned")
+        dominance_header_index = line.index("D_binned")
         context_header_index = line.index("context")
         continue
       guid = "%s-%s" % (set_type, i)
@@ -827,9 +827,9 @@ class EmobankAProcessor(DataProcessor):
       if i == 0:
         id_header_index = line.index("")
         dialogue_header_index = line.index("text")
-        valence_header_index = line.index("V")
-        arousal_header_index = line.index("A")
-        dominance_header_index = line.index("D")
+        valence_header_index = line.index("V_binned")
+        arousal_header_index = line.index("A_binned")
+        dominance_header_index = line.index("D_binned")
         context_header_index = line.index("context")
         continue
       guid = "%s-%s" % (set_type, i)
@@ -879,9 +879,9 @@ class EmobankAContextProcessor(DataProcessor):
       if i == 0:
         id_header_index = line.index("")
         dialogue_header_index = line.index("text")
-        valence_header_index = line.index("V")
-        arousal_header_index = line.index("A")
-        dominance_header_index = line.index("D")
+        valence_header_index = line.index("V_binned")
+        arousal_header_index = line.index("A_binned")
+        dominance_header_index = line.index("D_binned")
         context_header_index = line.index("context")
         continue
       guid = "%s-%s" % (set_type, i)
@@ -933,9 +933,9 @@ class EmobankDProcessor(DataProcessor):
       if i == 0:
         id_header_index = line.index("")
         dialogue_header_index = line.index("text")
-        valence_header_index = line.index("V")
-        arousal_header_index = line.index("A")
-        dominance_header_index = line.index("D")
+        valence_header_index = line.index("V_binned")
+        arousal_header_index = line.index("A_binned")
+        dominance_header_index = line.index("D_binned")
         context_header_index = line.index("context")
         continue
       guid = "%s-%s" % (set_type, i)
@@ -985,9 +985,9 @@ class EmobankDContextProcessor(DataProcessor):
       if i == 0:
         id_header_index = line.index("")
         dialogue_header_index = line.index("text")
-        valence_header_index = line.index("V")
-        arousal_header_index = line.index("A")
-        dominance_header_index = line.index("D")
+        valence_header_index = line.index("V_binned")
+        arousal_header_index = line.index("A_binned")
+        dominance_header_index = line.index("D_binned")
         context_header_index = line.index("context")
         continue
       guid = "%s-%s" % (set_type, i)
