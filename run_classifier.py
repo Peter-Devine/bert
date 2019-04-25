@@ -1095,6 +1095,98 @@ class EMOTERAProcessor(DataProcessor):
           InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
     return examples
 
+class FBVAVProcessor(DataProcessor):
+  """Processor for the custom emotion data set."""
+
+  def get_train_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "train.tsv")), "train")
+
+  def get_dev_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "dev.tsv")), "dev")
+
+  def get_test_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "test.tsv")), "test")
+
+  def get_labels(self):
+    """See base class."""
+    return ['V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7']
+
+  def _create_examples(self, lines, set_type):
+    """Creates examples for the training and dev sets."""
+    examples = []
+    for (i, line) in enumerate(lines):
+      id_header_index = 0
+      dialogue_header_index = 1
+      emotion_header_index = 9
+      # We take out our header in each dataset
+      if i == 0:
+        id_header_index = line.index("")
+        dialogue_header_index = line.index("Anonymized Message")
+        emotion_header_index = line.index("V_binned")
+        continue
+      guid = "%s-%s" % (set_type, i)
+      if set_type == "test":
+        text_a = tokenization.convert_to_unicode(line[dialogue_header_index])
+        label = "0"
+      else:
+        text_a = tokenization.convert_to_unicode(line[dialogue_header_index])
+        label = tokenization.convert_to_unicode(line[emotion_header_index])
+      examples.append(
+          InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
+    return examples
+
+class FBVAAProcessor(DataProcessor):
+  """Processor for the custom emotion data set."""
+
+  def get_train_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "train.tsv")), "train")
+
+  def get_dev_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "dev.tsv")), "dev")
+
+  def get_test_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "test.tsv")), "test")
+
+  def get_labels(self):
+    """See base class."""
+    return ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7']
+
+  def _create_examples(self, lines, set_type):
+    """Creates examples for the training and dev sets."""
+    examples = []
+    for (i, line) in enumerate(lines):
+      id_header_index = 0
+      dialogue_header_index = 1
+      emotion_header_index = 10
+      # We take out our header in each dataset
+      if i == 0:
+        id_header_index = line.index("")
+        dialogue_header_index = line.index("Anonymized Message")
+        emotion_header_index = line.index("A_binned")
+        continue
+      guid = "%s-%s" % (set_type, i)
+      if set_type == "test":
+        text_a = tokenization.convert_to_unicode(line[dialogue_header_index])
+        label = "0"
+      else:
+        text_a = tokenization.convert_to_unicode(line[dialogue_header_index])
+        label = tokenization.convert_to_unicode(line[emotion_header_index])
+      examples.append(
+          InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
+    return examples
+
 def convert_single_example(ex_index, example, label_list, max_seq_length,
                            tokenizer):
   """Converts a single `InputExample` into a single `InputFeatures`."""
@@ -1538,7 +1630,9 @@ def main(_):
       "emobankdprocessor": EmobankDProcessor,
       "emobankdcontextprocessor": EmobankDContextProcessor,
       "isear": ISEARProcessor,
-      "emotera": EMOTERAProcessor
+      "emotera": EMOTERAProcessor,
+      "fbvav": FBVAVProcessor,
+      "fbvaa": FBVAAProcessor
   }
 
   tokenization.validate_case_matches_checkpoint(FLAGS.do_lower_case,
