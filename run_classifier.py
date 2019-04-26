@@ -1187,7 +1187,7 @@ class FBVAAProcessor(DataProcessor):
           InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
     return examples
 
-class SSECAnger(DataProcessor):
+class SSECAngerProcessor(DataProcessor):
   """Processor for the custom emotion data set."""
 
   def get_train_examples(self, data_dir):
@@ -1233,7 +1233,7 @@ class SSECAnger(DataProcessor):
           InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
     return examples
 
-class SSECAnticipation(DataProcessor):
+class SSECAnticipationProcessor(DataProcessor):
   """Processor for the custom emotion data set."""
 
   def get_train_examples(self, data_dir):
@@ -1279,7 +1279,7 @@ class SSECAnticipation(DataProcessor):
           InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
     return examples
 
-class SSECDisgust(DataProcessor):
+class SSECDisgustProcessor(DataProcessor):
   """Processor for the custom emotion data set."""
 
   def get_train_examples(self, data_dir):
@@ -1325,7 +1325,7 @@ class SSECDisgust(DataProcessor):
           InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
     return examples
 
-class SSECFear(DataProcessor):
+class SSECFearProcessor(DataProcessor):
   """Processor for the custom emotion data set."""
 
   def get_train_examples(self, data_dir):
@@ -1371,7 +1371,7 @@ class SSECFear(DataProcessor):
           InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
     return examples
 
-class SSECJoy(DataProcessor):
+class SSECJoyProcessor(DataProcessor):
   """Processor for the custom emotion data set."""
 
   def get_train_examples(self, data_dir):
@@ -1417,7 +1417,7 @@ class SSECJoy(DataProcessor):
           InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
     return examples
 
-class SSECSadness(DataProcessor):
+class SSECSadnessProcessor(DataProcessor):
   """Processor for the custom emotion data set."""
 
   def get_train_examples(self, data_dir):
@@ -1463,7 +1463,7 @@ class SSECSadness(DataProcessor):
           InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
     return examples
 
-class SSECSurprise(DataProcessor):
+class SSECSurpriseProcessor(DataProcessor):
   """Processor for the custom emotion data set."""
 
   def get_train_examples(self, data_dir):
@@ -1509,7 +1509,7 @@ class SSECSurprise(DataProcessor):
           InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
     return examples
 
-class SSECTrust(DataProcessor):
+class SSECTrustProcessor(DataProcessor):
   """Processor for the custom emotion data set."""
 
   def get_train_examples(self, data_dir):
@@ -2000,7 +2000,15 @@ def main(_):
       "isear": ISEARProcessor,
       "emotera": EMOTERAProcessor,
       "fbvav": FBVAVProcessor,
-      "fbvaa": FBVAAProcessor
+      "fbvaa": FBVAAProcessor,
+      "ssecanger": SSECAngerProcessor,
+      "ssecanticipation": SSECAnticipationProcessor,
+      "ssecdisgust": SSECDisgustProcessor,
+      "ssecfear": SSECFearProcessor,
+      "ssecjoy": SSECJoyProcessor,
+      "ssecsadness": SSECSadnessProcessor,
+      "ssecsurprise": SSECSurpriseProcessor,
+      "ssectrust": SSECTrustProcessor
   }
 
   tokenization.validate_case_matches_checkpoint(FLAGS.do_lower_case,
