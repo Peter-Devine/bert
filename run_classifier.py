@@ -1693,6 +1693,99 @@ class WASSAProcessor(DataProcessor):
           InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
     return examples
 
+class AffectiveTextEmotionProcessor(DataProcessor):
+  """Processor for the custom emotion data set."""
+
+  def get_train_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "train.tsv")), "train")
+
+  def get_dev_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "dev.tsv")), "dev")
+
+  def get_test_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "test.tsv")), "test")
+
+  def get_labels(self):
+    """See base class."""
+    return ['joy', 'sadness', 'fear', 'surprise', 'anger', 'disgust']
+
+  def _create_examples(self, lines, set_type):
+    """Creates examples for the training and dev sets."""
+    examples = []
+    id_header_index = 0
+    dialogue_header_index = 2
+    emotion_header_index = 12
+    for (i, line) in enumerate(lines):
+      # We take out our header in each dataset
+      if i == 0:
+        id_header_index = line.index("")
+        dialogue_header_index = line.index("text")
+        emotion_header_index = line.index("emotion")
+        continue
+      guid = "%s-%s" % (set_type, i)
+      if set_type == "test":
+        text_a = tokenization.convert_to_unicode(line[dialogue_header_index])
+        label = "0"
+      else:
+        text_a = tokenization.convert_to_unicode(line[dialogue_header_index])
+        label = tokenization.convert_to_unicode(line[emotion_header_index])
+      examples.append(
+          InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
+    return examples
+
+class AffectiveTextValenceProcessor(DataProcessor):
+  """Processor for the custom emotion data set."""
+
+  def get_train_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "train.tsv")), "train")
+
+  def get_dev_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "dev.tsv")), "dev")
+
+  def get_test_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(
+        self._read_tsv(os.path.join(data_dir, "test.tsv")), "test")
+
+  def get_labels(self):
+    """See base class."""
+    return ['V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7']
+
+  def _create_examples(self, lines, set_type):
+    """Creates examples for the training and dev sets."""
+    examples = []
+    
+    id_header_index = 0
+    dialogue_header_index = 2
+    valence_header_index = 13
+    for (i, line) in enumerate(lines):
+      # We take out our header in each dataset
+      if i == 0:
+        id_header_index = line.index("")
+        dialogue_header_index = line.index("text")
+        valence_header_index = line.index("V_binned")
+        continue
+      guid = "%s-%s" % (set_type, i)
+      if set_type == "test":
+        text_a = tokenization.convert_to_unicode(line[dialogue_header_index])
+        label = "0"
+      else:
+        text_a = tokenization.convert_to_unicode(line[dialogue_header_index])
+        label = tokenization.convert_to_unicode(line[valence_header_index])
+      examples.append(
+          InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
+    return examples
+
 def convert_single_example(ex_index, example, label_list, max_seq_length,
                            tokenizer):
   """Converts a single `InputExample` into a single `InputFeatures`."""
@@ -2149,7 +2242,9 @@ def main(_):
       "ssectrust": SSECTrustProcessor,
       "emotionstimulus": EmotionStimulusProcessor,
       "semeval2018task1": SemEval2018Task1Processor,
-      "wassa": WASSAProcessor
+      "wassa": WASSAProcessor,
+      "affectivetextemotion": AffectiveTextEmotionProcessor,
+      "affectivetextvalence": AffectiveTextValenceProcessor
   }
 
   tokenization.validate_case_matches_checkpoint(FLAGS.do_lower_case,
