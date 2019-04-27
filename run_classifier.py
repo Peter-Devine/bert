@@ -1120,10 +1120,12 @@ class FBVAVProcessor(DataProcessor):
   def _create_examples(self, lines, set_type):
     """Creates examples for the training and dev sets."""
     examples = []
+    
+    id_header_index = 0
+    dialogue_header_index = 1
+    emotion_header_index = 8
+    
     for (i, line) in enumerate(lines):
-      id_header_index = 0
-      dialogue_header_index = 1
-      emotion_header_index = 9
       # We take out our header in each dataset
       if i == 0:
         id_header_index = line.index("")
@@ -1166,10 +1168,12 @@ class FBVAAProcessor(DataProcessor):
   def _create_examples(self, lines, set_type):
     """Creates examples for the training and dev sets."""
     examples = []
+    
+    id_header_index = 0
+    dialogue_header_index = 1
+    emotion_header_index = 9
+    
     for (i, line) in enumerate(lines):
-      id_header_index = 0
-      dialogue_header_index = 1
-      emotion_header_index = 10
       # We take out our header in each dataset
       if i == 0:
         id_header_index = line.index("")
